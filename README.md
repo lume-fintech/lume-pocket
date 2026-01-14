@@ -98,6 +98,26 @@ Você deve gerar a versão de instalação para Android. Para otimizar o tamanho
 
 ---
 
+## 🎨 Referência Visual (Layout)
+
+Não esperamos um design digno de prêmio, mas a estrutura deve seguir o padrão **Material Design**.
+
+Abaixo estão os protótipos de referência ("Mockups") do que esperamos visualmente. Usem como guia para posicionar os elementos (Cards, Textos, Botões).
+
+### Tela 1: Home (Lista de Tarefas)
+*Observem o uso do botão flutuante (FAB) e o espaçamento entre os cards.*
+
+![Layout da Home](layout_home.png)
+*(Se a imagem não carregar: imagine uma lista vertical onde cada item tem ícone, título e subtítulo, com um botão "+" no canto inferior direito)*
+
+### Tela 2: Detalhes da Tarefa
+*Observem o botão de voltar no topo e a hierarquia dos textos (Título grande, descrição menor).*
+
+![Layout de Detalhes](layout_details.png)
+
+---
+
+
 ## 🚀 Boa sorte, estamos a disposição para tirar dúvidas!
 
 

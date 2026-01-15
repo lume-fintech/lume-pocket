@@ -35,15 +35,66 @@ Não queremos apenas o código pronto. Queremos ver a **história** da construç
     * `docs: atualiza readme com instruções`
     * `style: ajusta cores do card`
 
-### 2. Estrutura de Projeto
-Organize seu código separando responsabilidades. Exemplo sugerido:
+### 2. Estrutura de Projeto (Padrão MVVM)
+
+A organização das pastas é o critério mais importante desta etapa. Você deve separar claramente quem desenha a tela de quem processa a lógica.
+
+Estrutura sugerida:
+
 ```text
 lib/
-├── components/     # Widgets reutilizáveis (botões, cards)
-├── models/         # Modelos de dados
-├── screens/        # Telas (Home, Details)
-└── main.dart       # Ponto de entrada
+├── models/         # [MODEL] O "O Que": Classes de dados puras (ex: Task). Sem import de material.dart.
+├── viewmodels/     # [VIEWMODEL] O "Como": Classes com a lógica e estado (ex: TaskViewModel).
+├── views/          # [VIEW] O "Onde": As telas do App (HomeView, DetailsView). Só desenham e chamam a ViewModel.
+├── components/     # Widgets visuais reutilizáveis (botões customizados, cards, itens de lista).
+└── main.dart       # Ponto de entrada e configurações iniciais.
 ```
+
+## 📚 Material de Estudo: Arquitetura
+
+Para cumprir este desafio, você não pode apenas "fazer funcionar". Você precisa "organizar a casa". Antes de começar a codar, leia atentamente os conceitos abaixo.
+
+### 1. Por que Arquitetura? (O Problema do Código Espaguete)
+No desafio anterior, vocês provavelmente colocaram variáveis, funções e widgets tudo misturado dentro do arquivo da tela.
+* **Problema:** Se o app crescer, vira uma bagunça impossível de manter.
+* **Solução:** Separar responsabilidades. Quem desenha na tela não deve saber fazer conta. Quem faz conta não deve saber desenhar na tela.
+
+### 2. O Padrão Escolhido pro LUME: MVVM (Model - View - ViewModel)
+O Flutter funciona muito bem com este padrão porque ele é **Reativo**.
+
+* **Model:** É o dado puro (Ex: A classe `Tarefa` com título e descrição). Não sabe que o app existe.
+* **View:** É a tela (Widgets). Ela é "burra". Ela só mostra o que a ViewModel manda e avisa quando o usuário clicou em algo.
+* **ViewModel:** É o cérebro. Ela guarda a lista de tarefas, tem a função de `adicionarTarefa()`, e avisa a View quando os dados mudaram.
+
+### 🆚 Comparação: MVC vs MVVM
+Muitos tutoriais antigos ensinam MVC. Veja a diferença para não confundir:
+
+| Característica | MVC (Model-View-Controller) | MVVM (Model-View-ViewModel) 🏆 |
+| :--- | :--- | :--- |
+| **Quem manda?** | O **Controller** manda na View. Ele diz: *"Tela, mude o texto para 'Olá'!"* | A **View** observa a ViewModel. A ViewModel diz: *"O texto agora é 'Olá'"* e a View se atualiza sozinha. |
+| **Dependência** | O Controller precisa conhecer a View. | A ViewModel **NÃO CONHECE** a View. Ela não sabe quem está assistindo ela. |
+| **No Flutter** | Menos comum para gestão de estado moderna. | **Padrão da Indústria.** Usa-se `ChangeNotifier` ou `ValueNotifier` para essa comunicação. |
+
+> **Resumo da Ópera:** No MVC, o Controller empurra a mudança para a tela. No MVVM, a Tela fica "escutando" as mudanças do ViewModel. **Neste desafio, queremos MVVM.**
+
+### 🔗 Onde Estudar (Recomendações)
+
+Não tentem implementar arquiteturas complexas como Clean Architecture agora. Foquem no **MVVM Simples com ChangeNotifier**.
+
+1.  **Gerência de Estado Nativa (Essencial):**
+    * Pesquise por: *"Flutter ChangeNotifier e AnimatedBuilder tutorial"*.
+    * Este é o jeito nativo do Flutter fazer a View escutar a ViewModel sem precisar de bibliotecas externas.
+
+2.  **Vídeos Recomendados:**
+    * **Canal Flutterando:** Procure por vídeos sobre "Arquitetura MVVM" ou "Gerência de Estado".
+    * **Conceito:** Procure vídeos que expliquem "Separação de View e Regra de Negócio".
+
+3.  **Dica de Ouro:**
+    Se no seu arquivo `home_view.dart` tiver um `setState` que altera uma regra de negócio (ex: adicionar item na lista), **está errado**. O `setState` na View deve servir apenas para coisas visuais (ex: mudar a cor de um botão ao clicar). A lista de dados deve ser alterada dentro da `ViewModel`.
+
+---
+
+
 ## 3. Entrega Final (Build)
 
 Você deve provar que seu ambiente é capaz de gerar o aplicativo final para Android.
